@@ -1,0 +1,57 @@
+{
+  "name": "metamask_conn",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@apollo/client": "^3.7.13",
+    "@grammyjs/conversations": "^1.1.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@walletconnect/crypto": "^1.0.3",
+    "@walletconnect/encoding": "^1.0.2",
+    "@walletconnect/environment": "^1.0.1",
+    "@walletconnect/events": "^1.0.1",
+    "@walletconnect/heartbeat": "^1.2.1",
+    "@walletconnect/jsonrpc-http-connection": "^1.0.6",
+    "@walletconnect/jsonrpc-provider": "^1.0.12",
+    "@walletconnect/jsonrpc-types": "^1.0.2",
+    "@web3modal/ethereum": "^2.3.7",
+    "@web3modal/react": "^2.3.7",
+    "css-in-js-utils": "^3.1.0",
+    "ethers": "^5.7.2",
+    "grammy": "^1.16.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-native-web": "^0.19.4",
+    "react-query": "^3.39.3",
+    "react-scripts": "5.0.1",
+    "telegraf": "^4.12.2",
+    "wagmi": "^0.12.13",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
