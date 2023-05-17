@@ -58,7 +58,7 @@ const { address, isConnected } = useAccount();
 function SignMessageButton() {
 
   const { data, isError, isLoading, isSuccess, signMessage } = useSignMessage({
-    message: 'gm wagmi frens',
+    message: 'This Message is a trial for Signing, will be in use soon!',
   })
 
   return (
