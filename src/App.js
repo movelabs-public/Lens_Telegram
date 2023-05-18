@@ -1,5 +1,4 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
-
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/react'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
@@ -8,32 +7,23 @@ import {
   useState, 
   useEffect } from 'react';
 import { Web3Button } from '@web3modal/react'
-import { useAccount, useSignMessage} from 'wagmi' 
-
+import { useAccount, useSignMessage, useSignTypedData} from 'wagmi' 
 
 const queryClient = new QueryClient();
-
 const tele = window.Telegram.WebApp;
-
 const chains = [arbitrum, mainnet, polygon]
 const projectId = '5b815af3d7b504a9c5805693678c8c2d'
 
 const { provider } = configureChains(chains, [w3mProvider({ projectId })])
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors: w3mConnectors({ projectId, version: 1, chains }),
-  provider
-})
+const wagmiClient = createClient({autoConnect: true, connectors: w3mConnectors({ projectId, version: 1, chains }), provider})
 const ethereumClient = new EthereumClient(wagmiClient, chains)
 
 
 function App() {
-const { address, isConnected } = useAccount();
 
+  const { address, isConnected } = useAccount();
+  useEffect(() => {tele.ready();}, []);
 
-  useEffect(() => {
-    tele.ready();
-  }, []);
 
   return (
     <>
@@ -44,9 +34,12 @@ const { address, isConnected } = useAccount();
         <br />
         {isConnected ? <SignMessageButton /> : null}
         <br />
+        {isConnected ? <SignTypedDataButton /> : null}
+        <br />
         {isConnected ? <h1 style={{ overflowWrap: 'break-word', maxWidth: '100%', textAlign: 'center', fontSize: '0.85em' }}>Manage your Wallet 👇</h1> : null}
         <Web3Button />
         </div>
+
       </WagmiConfig>
       <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
       </QueryClientProvider>
@@ -63,11 +56,7 @@ function SignMessageButton() {
 
   return (
     <div>
-      <button 
-        style={{ backgroundColor: '#3496FF', color: 'white', fontSize: '1em', padding: '10px 20px', fontWeight: 'bold',  borderRadius: '10px', border: 'none' }}
-        disabled={isLoading} 
-        onClick={() => signMessage()}
-      >
+      <button style={{ backgroundColor: '#3496FF', color: 'white', fontSize: '1em', padding: '10px 20px', fontWeight: 'bold',  borderRadius: '10px', border: 'none' }} disabled={isLoading} onClick={() => signMessage()}>
         Sign Message ✍️
       </button>
       {isSuccess && <div>Signature: {data}</div>}
@@ -76,6 +65,50 @@ function SignMessageButton() {
   )
 }
 
+function SignTypedDataButton() { //value should be message as changed in WAGMI but this is not reflected here
+  const { data, error, isError, isLoading, isSuccess, signTypedData } =
+    useSignTypedData({
+      domain: {
+        name: 'Ether Mail',
+        version: '1',
+        chainId: 137,
+        verifyingContract: '0x0000000000000000000000000000000000000000',
+      },
+      types: {
+        Person: [
+          { name: 'name', type: 'string' },
+          { name: 'wallet', type: 'address' },
+        ],
+        Mail: [
+          { name: 'from', type: 'Person' },
+          { name: 'to', type: 'Person' },
+          { name: 'contents', type: 'string' },
+        ],
+      },
+      primaryType: 'Mail',
+      value: {
+        from: {
+          name: 'ACCOUNT 1',
+          wallet: 'WALLET ADDRESS 1',
+        },
+        to: {
+          name: 'ACCOUNT 2',
+          wallet: 'WALLET ADDRESS 1',
+        },
+        contents: 'This is a trial test for signing of typed data!',
+      },
+    })
+ 
+  return (
+    <div>
+      <button style={{ backgroundColor: '#3496FF', color: 'white', fontSize: '1em', padding: '10px 20px', fontWeight: 'bold',  borderRadius: '10px', border: 'none' }} disabled={isLoading} onClick={() => signTypedData()}>
+        Sign Typed Data ✍️
+      </button>
+      {isSuccess && <div>Signature: {data}</div>}
+      {isError && <div>Error signing message: {error.message}</div>}
+    </div>
+  )
+}
 
 function RequestConnect() {
   return (

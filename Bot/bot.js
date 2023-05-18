@@ -69,7 +69,7 @@ async function sendMessageToServer(message) {
   } catch (error) {
     console.error('Error:', error);
   }
-}
+}// this does not work
 
 async function getDefaultProfile(ctx, address) {
   const chatId = ctx.chat.id;
