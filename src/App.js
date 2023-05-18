@@ -65,7 +65,7 @@ function SignMessageButton() {
   )
 }
 
-function SignTypedDataButton() { //value should be message as changed in WAGMI but this is not reflected here
+function SignTypedDataButton() {
   const { data, error, isError, isLoading, isSuccess, signTypedData } =
     useSignTypedData({
       domain: {
@@ -88,14 +88,14 @@ function SignTypedDataButton() { //value should be message as changed in WAGMI b
       primaryType: 'Mail',
       value: {
         from: {
-          name: 'ACCOUNT 1',
-          wallet: 'WALLET ADDRESS 1',
+          name: 'Cow',
+          wallet: '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
         },
         to: {
-          name: 'ACCOUNT 2',
-          wallet: 'WALLET ADDRESS 1',
+          name: 'Bob',
+          wallet: '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB',
         },
-        contents: 'This is a trial test for signing of typed data!',
+        contents: 'Hello, Bob!',
       },
     })
  
