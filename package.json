@@ -25,6 +25,7 @@
     "react-dom": "^18.2.0",
     "react-native-web": "^0.19.4",
     "react-query": "^3.39.3",
+    "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
     "telegraf": "^4.12.2",
     "wagmi": "^0.12.13",

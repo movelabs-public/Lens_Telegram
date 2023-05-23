@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/react'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
@@ -25,28 +26,34 @@ function App() {
   useEffect(() => {tele.ready();}, []);
 
 
-  return (
-    <>
-    <QueryClientProvider client={queryClient}>
-      <WagmiConfig client={wagmiClient}>
-        <div style={{ textAlign: 'center' }}>
-        {isConnected ? <SuccessfulConnect address={address} isConnected={isConnected} /> : <RequestConnect />}
-        <br />
-        {isConnected ? <SignMessageButton /> : null}
-        <br />
-        {isConnected ? <SignTypedDataButton /> : null}
-        <br />
-        {isConnected ? <h1 style={{ overflowWrap: 'break-word', maxWidth: '100%', textAlign: 'center', fontSize: '0.85em' }}>Manage your Wallet 👇</h1> : null}
-        <Web3Button />
-        </div>
-
-      </WagmiConfig>
-      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+ return (
+    <Router>
+      <QueryClientProvider client={queryClient}>
+        <WagmiConfig client={wagmiClient}>
+          <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+          <Routes>
+            <Route path="/" element={
+              <div style={{ textAlign: 'center' }}>
+                {isConnected ? <SuccessfulConnect address={address} isConnected={isConnected} /> : <RequestConnect />}
+                <br />
+                {isConnected ? <UploadPostButton /> : null}
+                <br />
+                {isConnected ? <SignMessageButton /> : null}
+                <br />
+                {isConnected ? <SignTypedDataButton /> : null}
+                <br />
+                {isConnected ? <h1 style={{ overflowWrap: 'break-word', maxWidth: '100%', textAlign: 'center', fontSize: '0.85em' }}>Manage your Wallet 👇</h1> : null}
+                <Web3Button />
+              </div>
+            }/>
+            <Route path="/hello" element={<HelloPage />} />
+          </Routes>
+        </WagmiConfig>
       </QueryClientProvider>
-    </>
-);
-
+    </Router>
+  );
 }
+
 
 function SignMessageButton() {
 
@@ -146,5 +153,24 @@ function SuccessfulConnect({ address, isConnected }) {
     </div>
   );
 }
+
+function UploadPostButton() {
+
+  return (
+    <div>
+      {/* Link to navigate to the HelloPage */}
+      <Link to="/hello">
+          <button style={{ backgroundColor: '#3496FF', color: 'white', fontSize: '1em', padding: '10px 20px', fontWeight: 'bold',  borderRadius: '10px', border: 'none' }}>
+           Upload Post
+          </button>
+      </Link>
+    </div>
+  )
+}
+
+function HelloPage() {
+  return <h1>Here is where you can upload your posts and sign typed message</h1>;
+}
+
 
 export default App;

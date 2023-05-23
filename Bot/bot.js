@@ -219,9 +219,10 @@ async function displayDefaultProfile(ctx, address) {
         .text("Following", `view_following:${walletLink[chatId]}`)
         .text("My Posts", `see_post:${id}`)
         .row()
-        .text("Explore Posts", `explore_options`)
         .text("Search Profile", `search_profile`)
         .text("Search Post", `search_post`)
+        .row()
+        .text("Explore Posts", `explore_options`)
         ;
       await ctx.reply(`You do not have a Profile Picture! \n\n ${message}`, {
         reply_markup: menu,
